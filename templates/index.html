@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% block head %}
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="utf-8" />
+    <title>Quantum Degrees of Separation</title>
+  </head>
+  {% endblock %}
+  {% block body %}
+  <body>
+    <div id="root"></div>
+
+    <div class="src">
+      <label>
+        Source link:
+        <input type="url" name="src-link" />
+      </label>
+      <button type="submit"> Submit </button>
+    </div>
+    
+    <div class="dst">
+    <label>
+        Destination link:
+        <input type="url" name="dst-link" />
+    </label>
+      <button type="submit"> Submit </button>
+    </div>
+
+    <!-- <img src="{{url_for('static', filename='graph_output.png')}}"> -->
+    
+  </body>
+  {% endblock %}
+</html>
