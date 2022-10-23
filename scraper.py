@@ -10,6 +10,6 @@ class scraper:
     def scrapeArticle(self, link):
         response = requests.get(self.startPage)
         soup = BeautifulSoup(response.content, 'html5lib')
-        title = soup.find(id = "firstHeading")
+        title = soup.find("h1")
         allLinks = soup.find(id = "bodyContent").find_all("a")
         return allLinks

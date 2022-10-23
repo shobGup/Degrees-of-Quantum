@@ -1,5 +1,5 @@
 from scraper import scraper
-# import timer
+import time
 
 class Vertex:
     url = ""
@@ -24,8 +24,8 @@ class Path:
     def add(self, node):
         self.path.append(node)
     
-    def remove(self, edge):
-        self.path.remove(edge)
+    def removeLast(self):
+        self.path.pop()
 
 class Graph:
     paths = []          # list of Paths
@@ -55,7 +55,8 @@ class Graph:
         scrap = scraper(self.start, self.end)
         self.dfs(self.start, path, 0, scrap)
     def dfs(self, article, path, depth, scraper):
-        if depth < 6:
+        counter = 0;
+        if depth < 3:
             edges = scraper.scrapeArticle(article)
             if self.end in edges:
                 path.add(self.end)
@@ -64,6 +65,8 @@ class Graph:
                 for edge in edges:
                     path.add(edge)
                     self.dfs(edge, path, depth + 1, scraper)
-                    path.remove(edge)
+                    path.removeLast()
+                    counter += 1
+                    print("counter: " + str((counter)))
     def print_graph(self):
         print (self.paths)
