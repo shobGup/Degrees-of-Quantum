@@ -30,43 +30,78 @@ class Path:
 class Graph:
     paths = []          # list of Paths
     shortest_path = Path()
-    djikstra_time = 0
-    quant_time = 0
     def __init__(self, start_vert, end_vert):
         self.start = start_vert
         self.end = end_vert
-    def find_shortest_djikstra(self, start, end):
-        # start timer
-        self.shortest_path = []
+        self.graph = {("static/" + start_vert):[]}
+    def find_shortest_djikstra(self):
+        parents = self.find_shortest()
+        path = ["static/" + self.end]
+        current = "static/" + self.end
+        while parents[current]:
+            path.insert(0, parents[current])
+            current = parents[current]
+        return path
+
         # end timer
     def find_shortest_quantum(self, start, end):
         # start timer
         self.shortest_path = []
         # end timer
-    def get_djik_time(self):
-        return self.djikstra_time
-    def get_quant_time(self):
-        return self.quant_time
     def add(self, path):
         self.paths.append(path)
-    def get_paths(self):
-        path = Path()
-        path.add(self.start)
-        scrap = scraper(self.start, self.end)
-        self.dfs(self.start, path, 0, scrap)
-    def dfs(self, article, path, depth, scraper):
-        counter = 0;
-        if depth < 3:
-            edges = scraper.scrapeArticle(article)
-            if self.end in edges:
-                path.add(self.end)
-                self.add(path)
+    def build_graph(self, article, scraper):
+        article = "static/" + article
+        edges = scraper.scrapeArticle(article)
+        for edge in edges:
+            if article not in self.graph:
+                self.graph[article] = ["static/" + edge['href']]
             else:
-                for edge in edges:
-                    path.add(edge)
-                    self.dfs(edge, path, depth + 1, scraper)
-                    path.removeLast()
-                    counter += 1
-                    print("counter: " + str((counter)))
+                self.graph[article].append("static/" + edge['href'])
+        for edge in edges:
+            edge2 = "static/" + edge['href']
+            if edge2 not in self.graph:
+                self.build_graph(edge['href'], scraper)
     def print_graph(self):
-        print (self.paths)
+        print(self.graph)
+    def get_graph(self):
+        scrap = scraper(self.start, self.end)
+        self.build_graph(self.start, scrap)
+    def find_shortest(self):
+        start = "static/" + self.start
+        parents = {start : None}
+        visited = set()
+        queue = []
+        queue.append(start)
+        visited.add(start)
+        while queue:
+            current = queue.pop(0)
+            for dest in self.graph[current]:
+                if dest not in visited:
+                    visited.add(dest)
+                    parents[dest] = current
+                    queue.append(dest)
+        return (parents)
+        # queue = [("static/" + self.start, ["static/" + self.start])]
+        # while queue:
+        #     (vertex, path) = queue.pop(0)
+        #     for next in set(self.graph[vertex]) - set(path):
+        #         if next == ("static/" + self.end):
+        #             yield (path + [next])
+        #         else:
+        #             queue.append((next, path + [next]))
+
+    # def dfs(self, article, path, depth, scraper):
+    #     counter = 0
+    #     if depth < 3:
+    #         edges = scraper.scrapeArticle(article)
+    #         if self.end in edges:
+    #             path.add(self.end)
+    #             self.add(path)
+    #         else:
+    #             for edge in edges:
+    #                 path.add(edge)
+    #                 self.dfs(edge, path, depth + 1, scraper)
+    #                 path.removeLast()
+    #                 counter += 1
+    #                 print("counter: " + str((counter)))

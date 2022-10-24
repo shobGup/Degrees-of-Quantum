@@ -2,30 +2,34 @@
 <html lang="en">
   {% block head %}
   <head>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/post.css') }}">
     <meta charset="utf-8" />
     <title>Quantum Degrees of Separation</title>
   </head>
   {% endblock %}
   {% block body %}
   <body>
-    <div id="root"></div>
-    <form action="#" method="post">
-      <div class="src">
-        <label>
-          Source link:
-          <input type="url" name="src-link" />
-        </label>
-      </div>
-      
-      <div class="dst">
-      <label>
-          Destination link:
-          <input type="url" name="dst-link" />
-      </label>
-      </div>
-      <input type="submit" value="submit" />
-    </form>
+    <body style="background-color:F9FFFF;">
+
+      <h1 class="title"> Quantum Degrees of Separation </h1>
+  
+      <div id="root"></div>
+      <div id="wrapper">
+      <form action="#" method="post">
+        <div class="links">
+          <label>
+            Source:
+            <input type="text" name="src-link" />
+          </label>
+  
+          <label>
+            Destination:
+            <input type="text" name="dst-link" />
+          </label>
+          <input type="submit" value="Submit" />
+        </div>
+      </form>
+    </div>
 
     <!-- <img src="{{url_for('static', filename='graph_output.png')}}"> -->
     

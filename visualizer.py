@@ -1,24 +1,31 @@
-import pydot
+# import pydot
+# from IPython.display import Image, display
 
-# [1: [1, 2, 3, 4]]
-def display(graph_data):
-    graph_viz = pydot.Dot(graph_type="directed")
-    graph_viz.set_label("Link Graph")
 
-    # insert vertices
-    for v in graph_data.shortest_path:
-        vertex = pydot.Node(v)
-        vertex.set_style("filled")
-        vertex.set_fillcolor("#b2cede")
-        graph_viz.add_node(vertex.get_title())
+# # [1: [1, 2, 3, 4]]
+# def display(graph_data):
+#     vizual = pydot.Dot(graph_type="digraph")
+#     vizual.set_label("Link Graph")
 
-    # insert directed edges
-    for i in range(len(graph_data.shortest_path)-1):
-        start = graph_data.shortest_path[i]
-        end = graph_data.shortest_path[i+1]
-        edge = pydot.Edge(start.get_title(), end.get_title())
-        graph_viz.add_edge(edge)
+#     # insert vertices
+#     for v in graph_data:
+#         vertex = pydot.Node(v)
+#         # vertex.set_style("filled")
+#         # vertex.set_fillcolor("#b2cede")
+#         vizual.add_node(vertex)
+
+#     # insert directed edges
+#     for i in graph_data:
+#         start = i
+#         for j in graph_data[start]:
+#             end = j
+#             edge = pydot.Edge(start, end)
+#         vizual.add_edge(edge)
         
-    
-    graph_viz.write_png('static/graph_output.png')
-    
+#     im = Image(vizual.create_jpeg())
+#     display(im)    
+
+# # graph = pydot.Dot(graph_type = "graph")
+# # graph.add_edge(pydot.Edge("1", "2"))
+# # graph.add_edge(pydot.Edge("1", "3"))
+# # graph.write("graph_output", format="png")
